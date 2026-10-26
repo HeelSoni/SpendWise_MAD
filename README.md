@@ -137,25 +137,6 @@ For detailed manual testing scenarios (10 functional test cases covering Add, Ed
 
 ---
 
-## 🎓 College Viva & Defense Notes (Q&A)
-
-### Q1: Why use SQLite (`sqflite`) instead of SharedPreferences or Firebase?
-- **Answer**: `SharedPreferences` is only designed for primitive key-value pairs (e.g., settings flags), not relational financial records that need aggregation. `Firebase` requires an internet connection, authentication, and external billing/cloud setup. SQLite provides a full ACID-compliant offline SQL relational engine directly on the device, allowing queries like `SUM(amount) GROUP BY category` and `WHERE date LIKE '2026-10%'`.
-
-### Q2: How does the Singleton Pattern work in `DBHelper`?
-- **Answer**: `DBHelper._init()` is a private constructor, and `DBHelper.instance` is the single static instance. This guarantees that only one database connection handle is ever opened throughout the entire app lifecycle, preventing lock contention and database corruption.
-
-### Q3: How is date filtering implemented in SQLite?
-- **Answer**: Dates are stored in ISO 8601 string format (`YYYY-MM-DDTHH:mm:ss`). In `db_helper.dart`, monthly filtering uses SQL wildcard matching: `WHERE date LIKE '2026-10%'`, which efficiently matches all records belonging to October 2026 without requiring runtime conversions.
-
-### Q4: How is state managed between the Home and Add/Edit screens?
-- **Answer**: The application uses clean `StatefulWidget` and `setState` along with asynchronous navigation (`Navigator.push`). When returning from `AddEditScreen`, the route pops with a boolean result `true`, prompting `HomeScreen` to execute `_loadData()` and fetch updated records from SQLite.
-
-### Q5: What happens when the monthly budget is exceeded?
-- **Answer**: `_totalSpent` is compared against `_monthlyBudget`. If `_totalSpent > _monthlyBudget` and `_monthlyBudget > 0`, `isBudgetExceeded` evaluates to `true`. This triggers a prominent warning banner with an alert icon and exact overspent calculation, while coloring the progress bar red.
-
----
-
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
